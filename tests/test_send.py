@@ -5,6 +5,11 @@ import time
 import numpy as np
 from concurrent.futures import ThreadPoolExecutor,ProcessPoolExecutor
 import threading
+import os
+import sys
+file_dir = os.path.dirname(os.path.abspath(__file__))
+root_path = os.path.dirname(file_dir)  # root path 是 distributed-training-INA
+sys.path.append(root_path)  
 
 from src.common.communicator import *
 
@@ -19,13 +24,13 @@ if __name__ =="__main__":
     print("Single process cost: {} sec; Throuthput {} GBps".format(str(end-start), str(data_size/(end-start))))
     
     print("\n === now testing multiprocessing.Pool ===")
-    multi_process_send(10, test_data)
+    multi_process_send(10, test_data, data_size)
 
     print("\n === now testing features.ThreadPoolExecutor send ===")
-    multi_thread_send_futures(10, test_data)
+    multi_thread_send_futures(10, test_data, data_size)
 
     print("\n === now testing features.ProcessPoolExecutor send ===")
-    multi_process_send_futures_P(10, test_data)
+    multi_process_send_futures_P(10, test_data, data_size)
 
     print("\n === now testing threading send ===")
-    multi_thread_send_threading(10, test_data)
+    multi_thread_send_threading(10, test_data, data_size)

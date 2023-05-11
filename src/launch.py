@@ -9,11 +9,11 @@ from tracemalloc import start
 import numpy as np
 import torch
 import os
+from common.utils import get_data, bind_port, send_timestamp_data
+from distributed_training.utils import datasets
+from distributed_training.utils import models
+from distributed_training.utils import worker
 
-from utils import datasets
-from utils import models
-from utils import worker
-from comm_libs.utils import get_data, bind_port, send_timestamp_data
 
 parser = argparse.ArgumentParser(description='Distributed Model Training')
 parser.add_argument('--idx', type=int, default=0)
@@ -32,7 +32,7 @@ parser.add_argument('--epoch', type=int, default=100)
 args = parser.parse_args()
 
 CURRENT_PATH = os.path.abspath(os.path.dirname(__file__))
-DATASET_PATH= CURRENT_PATH+'/../data/datasets'
+DATASET_PATH= CURRENT_PATH+'/../data/datasets'  
 
 os.environ['CUDA_VISIBLE_DEVICES'] = '0'
 device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
@@ -128,7 +128,7 @@ def master_loop(model, dataset, worker_num, config_file, batch_size, epoch, base
         exit(1)
         
     try:
-        train_dataset, test_dataset = datasets.load_dataset(dataset,DATASET_PATH)
+        train_dataset, test_dataset = datasets.load_datasets(dataset,DATASET_PATH)
     except TypeError as t:
         print(t)
         exit(1)
@@ -137,6 +137,8 @@ def master_loop(model, dataset, worker_num, config_file, batch_size, epoch, base
     try:
         host_config=json.load(file)
         for i in range(worker_num):
+            print("debug master_listen_port_base+i")
+            print(master_listen_port_base+i)
             worker_list.append(
                 worker.Worker(
                     i, 
@@ -226,7 +228,7 @@ def worker_loop(model, dataset, idx, batch_size, epoch, master_port):
     
     try:
         print('Load dataset {}...'.format(dataset))
-        train_dataset, test_dataset = datasets.load_dataset(dataset,DATASET_PATH)
+        train_dataset, test_dataset = datasets.load_datasets(dataset,DATASET_PATH)
     except ValueError as e:
         print(e)
     else:

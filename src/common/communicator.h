@@ -24,6 +24,12 @@ struct packet_t {
 	__u32 gradient[TENSOR_NUM];
 } __attribute__((packed));
 
+#ifdef __cplusplus
+extern "C" {
+#endif
 void send_gradients(__u32 *gradient_array,int packet_num, __u32 dst_ip, int worker_id, __u32 aggregator_index, int tensor_index);
+#ifdef __cplusplus
+}
+#endif
 
 #endif

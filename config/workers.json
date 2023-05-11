@@ -1,0 +1,9 @@
+[
+    {
+        "host_ip": "192.168.1.13",
+        "ssh_port": "22",
+        "ssh_usr" : "ysl",
+        "ssh_psw" : "kb310",
+        "work_dir": "/home/ysl/distributed-training-INA"
+    }
+]

@@ -1,3 +1,11 @@
+'''
+Author: pinkfloyd-eminem 13219058346@163.com
+Date: 2023-05-10 21:15:15
+LastEditors: pinkfloyd-eminem 13219058346@163.com
+LastEditTime: 2023-05-10 21:15:15
+FilePath: /ysl/distributed-training-INA/src/common/utils.py
+Description: 这是默认设置,请设置`customMade`, 打开koroFileHeader查看配置 进行设置: https://github.com/OBKoro1/koro1FileHeader/wiki/%E9%85%8D%E7%BD%AE
+'''
 import os
 import sys
 import struct
@@ -8,7 +16,7 @@ from multiprocessing import Process
 from time import sleep
 import time
 
-from src.comm_libs.header_config import DATA_NUM, DATA_BYTE, HEADER_BYTE
+from common.header_config import DATA_NUM, DATA_BYTE, HEADER_BYTE
 
 def is_port_in_use(port):
     with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as s:

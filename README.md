@@ -24,7 +24,7 @@ pip3 install torch==1.10.0+cpu torchvision==0.11.1+cpu torchaudio==0.10.0+cpu -f
 
 ## Usage
 
-We ignore the config files for security. You need to create `config\workers.json` for distributed training.
+We ignore the config files for security. You need to create `config/workers.json` for distributed training.
 
 ```json
 [

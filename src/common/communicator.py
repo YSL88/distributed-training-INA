@@ -5,16 +5,32 @@ import time
 import numpy as np
 from concurrent.futures import ThreadPoolExecutor,ProcessPoolExecutor
 import threading
+import os
+file_dir = os.path.dirname(os.path.abspath(__file__))
+root_path = os.path.join(file_dir, '../..')  # 返回 当前项目的目录
 
 TENSOR_NUM_PER_PACKET = 128
 AGGREGATOR_SIZE = 199665
 PARA_LEN = 25557032
 
-dst_ip_str = "172.16.210.33"
+# dst_ip_str = "172.16.210.33"
+dst_ip_str = "192.168.1.11"
 
-_send = cdll.LoadLibrary("./send.so") 
+# _send = cdll.LoadLibrary("./send.so") 
+_send = cdll.LoadLibrary(root_path + "/src/common/send.so")
 
-_send.send_gradients.argtypes = [
+# _send.send_gradients.argtypes = [
+#     POINTER(c_uint32), 
+#     c_int, 
+#     c_uint32, 
+#     c_int, 
+#     c_uint32,
+#     c_int
+# ]
+
+send_gradients = _send.send_gradients
+send_gradients.restype = None
+send_gradients.argtypes = [
     POINTER(c_uint32), 
     c_int, 
     c_uint32, 
@@ -41,7 +57,7 @@ def c_send_wrapper(gradient: "numpy.array", packet_num, dst_ip: int, worker_id, 
 def single_process_send(data):
     c_send_wrapper(data, int(len(data) / TENSOR_NUM_PER_PACKET), ip2int(dst_ip_str),0,0,0)
     
-def multi_process_send(process_num, data):
+def multi_process_send(process_num, data, data_size):
     start=time.time()
 
     process_pool = Pool(process_num)
@@ -65,7 +81,7 @@ def multi_process_send(process_num, data):
     print("{} processes cost: {} sec; Throuthput {} GBps".format(str(process_num), str(end-start), str(data_size/(end-start))))
 
 # multi process send through concurrent.futures.ThreadPoolExecutor
-def multi_thread_send_futures(process_num, data):
+def multi_thread_send_futures(process_num, data, data_size):
     start=time.time()
 
     executor=ThreadPoolExecutor()
@@ -91,7 +107,7 @@ def multi_thread_send_futures(process_num, data):
     print("{} processes cost: {} sec; Throuthput {} GBps".format(str(process_num), str(end-start), str(data_size/(end-start))))
 
 # multi process send through concurrent.features.ProcessPoolExecutor
-def multi_process_send_futures_P(process_num, data):
+def multi_process_send_futures_P(process_num, data, data_size):
     start=time.time()
 
     executor=ProcessPoolExecutor()
@@ -130,7 +146,7 @@ class myThread(threading.Thread):
     def run(self):
         c_send_wrapper(self.gradient, self.packet_num, self.dst_ip, self.worker_id, self.aggregator_index, self.tensor_index)
 
-def multi_thread_send_threading(process_num, data):
+def multi_thread_send_threading(process_num, data, data_size):
     start=time.time()
 
     total_packet = int(len(data) / TENSOR_NUM_PER_PACKET)
