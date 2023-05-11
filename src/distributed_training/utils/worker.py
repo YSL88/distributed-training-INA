@@ -92,6 +92,7 @@ class Worker:
             self.updated_paras = pickle.loads(data)
             # self.updated_paras.to()
 
+    # server 给 worker 发数据的 socket
     def _init_send_socket(self):
         self.socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
         print("debug self.socket.connect_ex((self.ip, int(self.ps_port)))")
@@ -107,7 +108,7 @@ class Worker:
 
         try:
             ssh.connect(hostname=self.ip, port=int(self.ssh_port),
-                        username=self.ssh_usr, password=self.ssh_psw)
+                        username=self.ssh_usr, password=self.ssh_psw)  # server ssh worker 去
         except Exception as e:
             print(e)
             ssh.close()
