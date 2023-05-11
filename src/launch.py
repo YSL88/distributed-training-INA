@@ -68,7 +68,7 @@ def test(model, data_loader, device):
             correct += batch_correct
 
     loss /= len(data_loader.dataset)
-    accuracy = np.float(1.0 * correct / len(data_loader.dataset))
+    accuracy = np.float64(1.0 * correct / len(data_loader.dataset))
 
     return loss, accuracy
 
