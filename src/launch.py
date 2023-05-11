@@ -137,8 +137,7 @@ def master_loop(model, dataset, worker_num, config_file, batch_size, epoch, base
     try:
         host_config=json.load(file)
         for i in range(worker_num):
-            print("debug master_listen_port_base+i")
-            print(master_listen_port_base+i)
+            
             worker_list.append(
                 worker.Worker(
                     i, 

@@ -40,24 +40,31 @@ class Worker:
                   ' --epoch ' + str(self.epoch) + \
                   ' --batch_size ' + str(self.batch_size) + \
                   ' > data/log/'+launch_time+'_worker_' + str(self.idx) + '.txt 2>&1'
-        
+        self.get_all()
+
+    def get_all(self):
+        print(", ".join([f"{attr}: {str(getattr(self, attr))}" for attr in dir(self)
+                         if not callable(getattr(self, attr)) and not attr.startswith("__") 
+                         and attr in ["idx", "dataset", "model", "use_cuda", "epoch", "batch_size", 
+                                      "worker_time", "ip", "ssh_port", "ps_ip", "ps_port", "work_dir", 
+                                      "ssh_usr", "ssh_psw", "socket", "updated_paras", "sending_time"]]))
+
     def launch(self, para, partition):
-        print("debug " + self.ip)
         try:
             if self.ip =="127.0.0.1":
                 t= Thread(target=self._launch_local_process)
                 t.start()
             else:
-                print("debug t start")
+                # print("debug t start")
                 t= Thread(target=self._launch_remote_process)
                 t.start()
-                print("debug t end")
+                # print("debug t end")
 
         except Exception as e:
             print(e)
             exit(1)
         else:
-            print("debug init")
+            # print("debug init")
             self._init_send_socket()
             init_config={
                 'para':para,
@@ -65,7 +72,7 @@ class Worker:
                 'test_data_index' : partition[1].use(self.idx)
             }
             self.send_data(init_config)
-            print("debug init end")
+            # print("debug init end")
 
     def send_data(self, data):
         ser_data = pickle.dumps(data)
@@ -88,8 +95,8 @@ class Worker:
     def _init_send_socket(self):
         self.socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
         print("debug self.socket.connect_ex((self.ip, int(self.ps_port)))")
-        print(self.ps_port)
-        print(self.socket.connect_ex((self.ip, int(self.ps_port))))
+        print("debug self.ip: " + str(self.ip) + " self.port: " + str(self.ps_port))
+        print("dubug self.socket.connect_ex((self.ip, int(self.ps_port))) value is: " + str(int(self.socket.connect_ex((self.ip, int(self.ps_port))))))
         while self.socket.connect_ex((self.ip, int(self.ps_port))) != 0:
             sleep(0.5)
         print("debug _init_send_socket")
