@@ -2,6 +2,7 @@
     {
         "host_ip": "192.168.1.44",
         "ssh_port": "22",
+<<<<<<< HEAD
         "ssh_usr" : "inspur",
         "ssh_psw" : "123456",
         "work_dir": "/home/inspur/distributed-training-INA"
@@ -19,5 +20,17 @@
         "ssh_usr" : "inspur",
         "ssh_psw" : "123456",
         "work_dir": "/home/inspur/distributed-training-INA"
+=======
+        "ssh_usr" : "ysl",
+        "ssh_psw" : "kb310",
+        "work_dir": "/home/ysl/distributed-training-INA"
+    },
+    {
+        "host_ip": "192.168.1.16",
+        "ssh_port": "22",
+        "ssh_usr" : "ysl",
+        "ssh_psw" : "kb310",
+        "work_dir": "/home/ysl/distributed-training-INA"
+>>>>>>> origin/master
     }
 ]
