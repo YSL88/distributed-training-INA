@@ -12,5 +12,12 @@
         "ssh_usr" : "inspur",
         "ssh_psw" : "123456",
         "work_dir": "/home/inspur/distributed-training-INA"
+    },
+    {
+        "host_ip": "192.168.3.15",
+        "ssh_port": "22",
+        "ssh_usr" : "inspur",
+        "ssh_psw" : "123456",
+        "work_dir": "/home/inspur/distributed-training-INA"
     }
 ]

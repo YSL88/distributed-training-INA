@@ -79,7 +79,7 @@
     1. **worker_num** 为 config/workers.json 中的节点数量 
     TODO worker_num 怎么使美元符生效
     2. **ip** 为 server ip
-    TODO 在 config/workers.json 中把 server 添加上是不是也行
+    在 config/workers.json 中把 server 添加上是不是也行, 可行
 3. **检查** worker.py 中 cmd 是否与 test.sh 中 python3 路径一致
 4. **同步** 到所有机器上，可以写 sync.sh 脚本（只删一部分），也可以每个机器 rm 再 scp
     TODO 写一个 rm scp 脚本（全删
