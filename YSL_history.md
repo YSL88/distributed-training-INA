@@ -17,7 +17,7 @@
 2. common/communicator.cc .h communicator.py  tests/test_send.py 测试成功
 3. 在~/distributed-training-INA目录下，bash test.sh 即可
 4. 运行时 
-    1. sudo /home/ysl/miniconda3/bin/python3 src/launch.py --master 1 --ip 192.168.1.12 --worker_num 1 --config_file config/workers.json --dataset CIFAR100 --model resnet50
+    1. sudo /home/ysl/miniconda3/bin/python3 src/launch.py --master 1 --ip 192.168.1.11 --worker_num 1 --config_file config/workers.json --dataset CIFAR100 --model resnet50
     在每台机子上都装一个 miniconda 
     2. worker.py self.cmd = /home/ysl/miniconda3/bin/python3
 5. 同步脚本

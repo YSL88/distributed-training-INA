@@ -29,7 +29,7 @@ class Worker:
         self.socket = None
         self.updated_paras=None
         self.sending_time=None
-        self.cmd=' cd ' + self.work_dir + '; sudo /home/ysl/miniconda3/bin/python3 ' + '-u src/launch.py' + \
+        self.cmd=' cd ' + self.work_dir + '; sudo /home/inspur/miniconda3/bin/python3 ' + '-u src/launch.py' + \
                   ' --master ' + str(0) + \
                   ' --master_ip ' + str(self.ps_ip) + \
                   ' --master_port ' + str(self.ps_port) + \
